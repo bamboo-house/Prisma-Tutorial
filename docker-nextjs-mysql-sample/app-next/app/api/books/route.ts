@@ -1,22 +1,43 @@
-import { NextResponse } from 'next/server';
-import * as mysql from 'promise-mysql';
+import { NextResponse } from 'next/server'
+import { PrismaClient } from '@prisma/client'
 
-// 環境変数
-require('dotenv').config({path: '../.env'});
 
 // 書籍一覧取得API
 export async function GET() {
-  const connection = await mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    database: process.env.MYSQL_DATABASE,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD
-  });
+  const prisma = new PrismaClient()
+  await prisma.$disconnect()
 
-  const sql = 'SELECT b.id id, b.name name, a.name author FROM books b LEFT JOIN authors a ON b.author = a.id';
-  const result = await connection.query(sql);
-  connection.end();
+  // const user = await prisma.user.create({
+  //   data: {
+  //     name: 'Alice',
+  //     email: 'alice@prisma.io',
+  //   },
+  // })
 
-  return NextResponse.json(result);
+  // console.log(user)
+
+  // const user2 = await prisma.user.create({
+  //   data: {
+  //     name: 'Bob',
+  //     email: 'bob@prisma.io',
+  //     posts: {
+  //       create: {
+  //         title: 'Hello World',
+  //         content: 'unko man',
+  //       },
+  //     },
+  //   },
+  // })
+
+  // console.log(user2)
+
+  const usersWithPosts = await prisma.user.findMany({
+    include: {
+      posts: true,
+    },
+  })
+
+  console.dir(usersWithPosts, { depth: null })
+
+  return NextResponse.json(usersWithPosts);
 }
