@@ -14,7 +14,6 @@ services:
     # ネットワーク
     networks:
       - default
-    command: npm run dev
 
   # データベース
   db:
