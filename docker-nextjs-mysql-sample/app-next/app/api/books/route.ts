@@ -1,11 +1,8 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
-
+import prisma from '../../libs/prisma'
 
 // 書籍一覧取得API
 export async function GET() {
-  const prisma = new PrismaClient()
-  await prisma.$disconnect()
 
   // const user = await prisma.user.create({
   //   data: {
