@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import prisma from '../../libs/prisma'
+import prisma from '../libs/prisma'
 
 // 書籍一覧取得API
 export async function GET() {
