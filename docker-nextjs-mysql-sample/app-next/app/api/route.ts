@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import prisma from '../libs/prisma'
+import prisma from '../../libs/prisma'
 
 // 書籍一覧取得API
 export async function GET() {
@@ -28,12 +28,15 @@ export async function GET() {
 
   // console.log(user2)
 
+  
   const usersWithPosts = await prisma.user.findMany({
     include: {
       posts: true,
     },
   })
-
+  
+  console.log(typeof usersWithPosts);
+  console.log(usersWithPosts[0]);
   console.dir(usersWithPosts, { depth: null })
 
   return NextResponse.json(usersWithPosts);
